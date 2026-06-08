@@ -16,5 +16,9 @@ add_executable(
   ${HEADERS}
 )
 
-target_link_libraries(reader ${OpenCV_LIBS})
+find_library(ZBAR_LIBRARY zbar)
+# find_package(ZXing REQUIRED)
+
+# target_link_libraries(reader ${OpenCV_LIBS} ${ZBAR_LIBRARY} ZXing::ZXing)
+target_link_libraries(reader ${OpenCV_LIBS} ${ZBAR_LIBRARY})
 target_include_directories(reader PRIVATE src)

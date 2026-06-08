@@ -5,4 +5,8 @@
 using namespace std;
 using namespace cv;
 
-vector<Point2f> order_points(const vector<Point2f> &points);
+void write_found_codes(map<string, set<pair<string, string>>> codes,
+                       string filename, bool do_write_code_names = false);
+
+void compare_found_codes(string found_file, string compare_file_name,
+                         vector<string> img_names);

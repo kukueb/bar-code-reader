@@ -7,3 +7,5 @@ using namespace std;
 using namespace cv;
 
 Mat localize_bar_code_and_straght(const Mat &binary);
+
+set<pair<string, string>> zbar_code_parse(Mat &src);
