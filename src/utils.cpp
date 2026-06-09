@@ -91,6 +91,17 @@ template <typename T, typename P> void print_map_firsts(const map<T, P> &mp) {
   }
 }
 
+void add_found_count(const map<string, set<string>> &found,
+                     map<string, map<string, int>>  &codes) {
+
+  for (auto it = found.begin(); it != found.end(); ++it) {
+    for (auto itt = (it->second).begin(); itt != (it->second).end(); ++itt) {
+      // if (codes.find(it->first) == codes->end())
+      codes[it->first][*itt] += 1;
+    }
+  }
+}
+
 void compare_found_codes(string found_file, string compare_file_name,
                          vector<string> img_names) {
 
