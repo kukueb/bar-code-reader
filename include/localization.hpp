@@ -9,3 +9,4 @@ using namespace cv;
 Mat localize_bar_code_and_straght(const Mat &binary);
 
 set<pair<string, string>> zbar_code_parse(Mat &src);
+set<pair<string, string>> inv_rot_code_parse(Mat &src);

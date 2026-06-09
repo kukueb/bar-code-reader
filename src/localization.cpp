@@ -10,7 +10,7 @@ using namespace cv;
 using namespace zbar;
 
 int find_largest_idx(vector<vector<Point>> contours) {
-  int    idx = 0;
+  int idx = 0;
   double largest_area = contourArea(contours[0]);
 
   for (int i = 1; i < contours.size(); ++i) {
@@ -23,23 +23,44 @@ int find_largest_idx(vector<vector<Point>> contours) {
   return idx;
 }
 
-/**
- *  @brief returns decoded symbol sequence and does imshow with selected area
- */
-set<pair<string, string>> zbar_code_parse(Mat &src) {
+pair<int, Image> simple_scan(Mat &src) {
   ImageScanner scanner;
   scanner.set_config(ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
 
   Mat gray;
   cvtColor(src, gray, COLOR_BGR2GRAY);
-  int    w = gray.cols, h = gray.rows;
+  int w = gray.cols, h = gray.rows;
   uchar *raw = (uchar *)gray.data;
 
   Image image(w, h, "Y800", raw, w * h);
 
   int n = scanner.scan(image);
+  return {n, image};
+}
 
+set<pair<string, string>> extract_codes_simple(int n, Image image) {
   set<pair<string, string>> codes;
+
+  for (auto symbol = image.symbol_begin(); symbol != image.symbol_end();
+       ++symbol) {
+    string type = symbol->get_type_name();
+    string data = symbol->get_data();
+    if (!codes.count({type, data}))
+      cout << "Found [" << type << "]: " << data << endl;
+
+    codes.insert({type, data});
+  }
+
+  return codes;
+}
+
+/**
+ *  @brief returns decoded symbol sequence and does imshow with selected area
+ */
+set<pair<string, string>> zbar_code_parse(Mat &src) {
+  set<pair<string, string>> codes;
+
+  auto [n, image] = simple_scan(src);
 
   if (n == 0) {
     cout << "No bar codes" << endl;
@@ -76,3 +97,22 @@ set<pair<string, string>> zbar_code_parse(Mat &src) {
   }
   return codes;
 }
+
+set<pair<string, string>> inv_rot_code_parse(Mat &src) {
+  set<pair<string, string>> codes;
+
+  for (int i = 0; i < 4; ++i) {
+
+    auto [n, image] = simple_scan(src);
+
+    codes.merge(extract_codes_simple(n, image));
+
+    rotate(src, src, ROTATE_90_CLOCKWISE);
+  }
+
+  return codes;
+}
+
+// set<pair<string, string>> bilateral_parse(Mat &src) {
+//
+// }

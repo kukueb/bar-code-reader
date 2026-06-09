@@ -50,7 +50,7 @@
 
 5.jpg
   [TP] (0): 
-  [FP] (0): 
+  [FP] (1): 2525R4059183290747 
   [FN] (2): 2525R405918329074 W329074P251602 
 
 6.jpg
@@ -74,8 +74,8 @@
   [FN] (0): 
 
 Total TP : 18
-Total FP : 3
+Total FP : 4
 Total FN : 9
-Precision: 0.8571
+Precision: 0.8182
 Recall   : 0.6667
-F1-Score : 0.7500
+F1-Score : 0.7347
