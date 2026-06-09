@@ -8,6 +8,8 @@
 using namespace std;
 using namespace cv;
 
+using parse_func_ptr = set<pair<string, string>> (*)(Mat &);
+
 string data_path = "../data/";
 string output_path = data_path + "output.txt";
 
@@ -42,26 +44,30 @@ void find_and_write(function<set<pair<string, string>>(Mat &)> method,
                     file_name); // DOING WRITING CODES INTO FILE
 }
 
-int main(int argc, char *argv[]) {
+int main() {
   int idx = 0;
 
-  auto current_method = zbar_code_parse;
-  // auto current_method = clahe_parse;
+  vector<parse_func_ptr> methods = {zbar_code_parse,       inv_rot_code_parse,
+                                    clahe_parse,           bilateral_parse,
+                                    clahe_bilateral_parse, parse_by_saturation};
+
   int cur_try = 1;
+  for (; cur_try - 1 < methods.size(); ++cur_try) {
+    parse_func_ptr current_method = methods[cur_try - 1];
 
-  string current_try = data_path + "try_" + to_string(cur_try) + ".txt";
-  string current_comparison =
-      data_path + "compare_" + to_string(cur_try) + ".txt";
+    string current_try = data_path + "try_" + to_string(cur_try) + ".txt";
+    string current_comparison =
+        data_path + "compare_" + to_string(cur_try) + ".txt";
 
-  find_and_write(current_method, current_try); // DOING FILE WRITING HERE
+    find_and_write(current_method, current_try); // DOING FILE WRITING HERE
 
-  // namedWindow("img", WINDOW_NORMAL);
+    // namedWindow("img", WINDOW_NORMAL);
 
-  compare_found_codes(current_try, current_comparison,
-                      data_path + "truth2.txt");
+    compare_found_codes(current_try, current_comparison,
+                        data_path + "truth2.txt");
+  }
 
   /*
-
   while (true) {
 
     parse_and_show(img_names[idx]);
@@ -76,7 +82,6 @@ int main(int argc, char *argv[]) {
       break;
     }
   }
-
   */
   return 0;
 }
