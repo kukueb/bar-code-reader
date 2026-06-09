@@ -45,9 +45,9 @@ void find_and_write(function<set<pair<string, string>>(Mat &)> method,
 int main(int argc, char *argv[]) {
   int idx = 0;
 
-  // auto current_method = zbar_code_parse;
-  auto current_method = inv_rot_code_parse;
-  int cur_try = 2;
+  auto current_method = zbar_code_parse;
+  // auto current_method = clahe_parse;
+  int cur_try = 1;
 
   string current_try = data_path + "try_" + to_string(cur_try) + ".txt";
   string current_comparison =
