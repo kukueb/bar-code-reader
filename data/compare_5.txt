@@ -49,9 +49,9 @@
   [FN] (0): 
 
 5.jpg
-  [TP] (0): 
-  [FP] (1): 2525R4059183290747 
-  [FN] (2): 2525R405918329074 W329074P251602 
+  [TP] (1): 2525R4059183290747 
+  [FP] (0): 
+  [FN] (1): W329074P251602 
 
 6.jpg
   [TP] (2): 25TV4457218470771 W470771P252365K 
@@ -73,9 +73,9 @@
   [FP] (0): 
   [FN] (0): 
 
-Total TP : 18
-Total FP : 5
-Total FN : 9
-Precision: 0.7826
-Recall   : 0.6667
-F1-Score : 0.7200
+Total TP : 19
+Total FP : 4
+Total FN : 8
+Precision: 0.8261
+Recall   : 0.7037
+F1-Score : 0.7600
