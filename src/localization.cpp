@@ -111,7 +111,6 @@ set<pair<string, string>> zbar_code_parse(Mat &src) {
 
     codes.insert({bc.type, bc.data});
 
-    // Отрисовка
     if (bc.points.size() == 4) {
       for (int i = 0; i < 4; i++) {
         line(src, bc.points[i], bc.points[(i + 1) % 4], Scalar(0, 255, 0), 3);
