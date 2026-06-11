@@ -50,7 +50,8 @@ int main() {
 
   vector<parse_func_ptr> methods = {zbar_code_parse,       inv_rot_code_parse,
                                     clahe_parse,           bilateral_parse,
-                                    clahe_bilateral_parse, parse_by_saturation};
+                                    clahe_bilateral_parse, parse_by_saturation,
+                                    inv_rot_code_parse_45};
 
   int cur_try = 1;
   for (; cur_try - 1 < methods.size(); ++cur_try) {

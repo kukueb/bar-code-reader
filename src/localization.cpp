@@ -221,3 +221,38 @@ set<pair<string, string>> parse_by_saturation(Mat &src) {
   auto barcodes = scan_image(sat);
   return extract_codes_simple(barcodes);
 }
+
+set<pair<string, string>> inv_rot_code_parse_45(Mat &src) {
+  set<pair<string, string>> codes;
+  Mat gray;
+  if (src.channels() == 3) {
+    cvtColor(src, gray, COLOR_BGR2GRAY);
+  } else {
+    gray = src.clone();
+  }
+
+  for (int i = 0; i < 4; ++i) {
+    double angle = i * 45.0;
+    Mat rotated;
+
+    if (angle == 0) {
+      rotated = gray;
+    } else {
+      Point2f center(gray.cols / 2.0f, gray.rows / 2.0f);
+
+      Mat rot_matrix = getRotationMatrix2D(center, angle, 1.0);
+
+      Rect2f bbox = RotatedRect(Point2f(), gray.size(), angle).boundingRect2f();
+
+      rot_matrix.at<double>(0, 2) += bbox.width / 2.0 - center.x;
+      rot_matrix.at<double>(1, 2) += bbox.height / 2.0 - center.y;
+
+      warpAffine(gray, rotated, rot_matrix, bbox.size(), INTER_LINEAR,
+                 BORDER_CONSTANT, Scalar(255));
+    }
+    auto barcodes = scan_image(rotated);
+    codes.merge(extract_codes_simple(barcodes));
+  }
+
+  return codes;
+}

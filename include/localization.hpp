@@ -16,3 +16,5 @@ set<pair<string, string>> clahe_parse(Mat &src);
 set<pair<string, string>> clahe_bilateral_parse(Mat &src);
 
 set<pair<string, string>> parse_by_saturation(Mat &src);
+
+set<pair<string, string>> inv_rot_code_parse_45(Mat &src);
